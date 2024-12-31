@@ -8,15 +8,13 @@ const app = express();
 // Use the port from the environment variable (Render provides this)
 const PORT = process.env.PORT || 4000;
 
-const allowedOrigin = 'https://portfolio-db-7fbd.onrender.com';
-
 const corsOptions = {
-    origin: allowedOrigin,  // Allow only your React app
-    methods: 'GET,POST',     // You can specify allowed methods
-    allowedHeaders: 'Content-Type,Authorization',  // Add any custom headers here
-  };
+    origin: '*', // Allow all origins
+    methods: 'GET,POST', // Specify allowed methods
+    allowedHeaders: 'Content-Type,Authorization', // Specify allowed headers
+};
 
-  app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 // Connect to MongoDB Atlas using Mongoose
 mongoose.connect(process.env.DB_url, {
