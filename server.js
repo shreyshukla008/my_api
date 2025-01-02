@@ -77,7 +77,7 @@ const CommentSchema = new mongoose.Schema({
     lastName: String,
     email: { type: String, required: true },
     subject: String,
-    comment: String,
+    comments: String,
     date: { type: Date, default: Date.now }, 
   });
   
