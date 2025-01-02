@@ -97,12 +97,12 @@ const CommentSchema = new mongoose.Schema({
   
       // Check if all required fields are provided
       if (!firstName || !lastName || !email || !subject || !comments) {
-        return res.status(400).send('All fields are required.')
+        return res.status(400).setError('All fields are required.')
       }
   
       // Validate email formatS
       if (!validateEmail(email)) {
-        return res.status(400).send('Invalid email format.');
+        return res.status(400).setError('Invalid email format.');
       }
   
       const newComment = new Comment({
@@ -116,7 +116,7 @@ const CommentSchema = new mongoose.Schema({
       const savedComment = await newComment.save();
       res.status(201).json(savedComment);
     } catch (error) {
-      res.status(500).send('Error uploading comment: ' + error.message);
+      res.status(500).setError('Error uploading comment: ' + error.message);
     }
   });
 
