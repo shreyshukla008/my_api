@@ -87,7 +87,7 @@ const CommentSchema = new mongoose.Schema({
   };
   
   
-  app.post('/api/comments', async (req, res) => {
+  app.post('/api/v1/comments', async (req, res) => {
     try {
       const { firstName, lastName, email, subject, comment } = req.body;
   
