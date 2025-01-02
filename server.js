@@ -67,6 +67,57 @@ app.get('/api/v1/skills', async (req, res) => {
     }
 });
 
+
+// Schema and Model for the data to upload
+const CommentSchema = new mongoose.Schema({
+    firstName: String,
+    lastName: String,
+    email: { type: String, required: true },
+    subject: String,
+    comment: String,
+    date: { type: Date, default: Date.now }, 
+  });
+  
+  const Comment = mongoose.model('Comment', CommentSchema);
+  
+  // Email validation function
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+  };
+  
+  
+  app.post('/api/comments', async (req, res) => {
+    try {
+      const { firstName, lastName, email, subject, comment } = req.body;
+  
+      // Check if all required fields are provided
+      if (!firstName || !lastName || !email || !subject || !comment) {
+        return res.status(400).send('All fields are required.');
+      }
+  
+      // Validate email format
+      if (!validateEmail(email)) {
+        return res.status(400).send('Invalid email format.');
+      }
+  
+      const newComment = new Comment({
+        firstName,
+        lastName,
+        email,
+        subject,
+        comments,
+      });
+  
+      const savedComment = await newComment.save();
+      res.status(201).json(savedComment);
+    } catch (error) {
+      res.status(500).send('Error uploading comment: ' + error.message);
+    }
+  });
+
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
