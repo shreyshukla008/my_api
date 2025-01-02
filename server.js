@@ -68,6 +68,9 @@ app.get('/api/v1/skills', async (req, res) => {
 });
 
 
+
+app.use(express.json());
+
 // Schema and Model for the data to upload
 const CommentSchema = new mongoose.Schema({
     firstName: String,
@@ -88,15 +91,16 @@ const CommentSchema = new mongoose.Schema({
   
   
   app.post('/api/v1/comments', async (req, res) => {
+    console.log(req.body);
     try {
-      const { firstName, lastName, email, subject, comment } = req.body;
+      const { firstName, lastName, email, subject, comments } = req.body;
   
       // Check if all required fields are provided
-      if (!firstName || !lastName || !email || !subject || !comment) {
-        return res.status(400).send('All fields are required.');
+      if (!firstName || !lastName || !email || !subject || !comments) {
+        return res.status(400).send('All fields are required.')
       }
   
-      // Validate email format
+      // Validate email formatS
       if (!validateEmail(email)) {
         return res.status(400).send('Invalid email format.');
       }
@@ -117,6 +121,7 @@ const CommentSchema = new mongoose.Schema({
   });
 
 
+  
 
 // Start the server
 app.listen(PORT, () => {
